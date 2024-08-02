@@ -12,9 +12,9 @@ const home = async (req, res) => {
 const list = async (req, res) => {
   try {
     const { fullname, age, pcds } = req.body;
-    console.log("----------------")
+    console.log("----------------");
     console.log(req.body);
-    
+
     const UserExist = await User2.findOne({
       fullname: fullname,
     });
@@ -25,13 +25,26 @@ const list = async (req, res) => {
       return res.send({ msg: "email already exist" });
     }
 
-    await User2.create({ fullname, age, pcds });
+    const userCreated = await User2.create({ fullname, age, pcds });
 
-    res.status(200).send("from mvc list");
+    res.status(200).send({
+      msg: "reg succesfull!",
+      token: await userCreated.generateToken(),
+    });
   } catch (err) {
     console.log(err);
     res.status(400).send({ msg: "page not found" });
   }
 };
 
-module.exports = { home, list };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User2.find(); // Retrieve all users
+    res.status(200).json(users); // Send the users as JSON
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ msg: "Error fetching users" });
+  }
+};
+
+module.exports = { home, list, getAllUsers };

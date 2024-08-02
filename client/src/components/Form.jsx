@@ -18,24 +18,23 @@ export default function Form() {
 
   const handleChange = (e) => {
     let { name, value } = e.target;
-    setData({ ...data, [name]: value }); 
+    setData({ ...data, [name]: value });
     // console.log(name, value);
   };
 
   const handleSubmit = async (e) => {
     console.log(data);
     try {
-      const res =await axios
-      .post("http://localhost:3000/list", data, {
+      const res = await axios.post("http://localhost:3000/list", data, {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      console.log(res)
+      });
+    console.log(res);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    
+
     // if (data.fullname && data.age && data.pin) {
 
     e.preventDefault();

@@ -1,4 +1,4 @@
-const User = require("../models/user-model");
+const User2 = require("../models/user-model");
 
 const home = async (req, res) => {
   try {
@@ -11,18 +11,21 @@ const home = async (req, res) => {
 
 const list = async (req, res) => {
   try {
+    const { fullname, age, pcds } = req.body;
+    console.log("----------------")
     console.log(req.body);
-    const { fullname, age, pincode } = req.body;
-
-    const UserExist =await User.findOne({
-      fullname: fullname
+    
+    const UserExist = await User2.findOne({
+      fullname: fullname,
     });
     // console.log(typeof UserExist);
+
     if (UserExist) {
-      console.log("userExist")
+      console.log("userExist");
       return res.send({ msg: "email already exist" });
     }
-    await User.create({ fullname, age, pincode });
+
+    await User2.create({ fullname, age, pcds });
 
     res.status(200).send("from mvc list");
   } catch (err) {

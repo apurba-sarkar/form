@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   fullname: {
@@ -9,14 +10,28 @@ const userSchema = new mongoose.Schema({
     type: Number,
     require: true,
   },
-  pincode: {
-    type: Number,
+  pcds: {
+    type: String,
     require: true,
   },
-
 });
 
+userSchema.pre("save",async  function  (next) {
+  const user = this;
+  if (!user.isModified("pcds")) {
+    next();
+  }
+  try {
+    const saltRound = 10;
+    const hashed_pincode = await bcrypt.hash(user.pcds, saltRound);
+    user.pcds = hashed_pincode
+    console.log(user.pcds)
+    console.log(this);
+  } catch (error) {
+    console.log(error)
+  }
+});
 
-const User = new mongoose.model("User",userSchema)
+const User2 = new mongoose.model("User2", userSchema);
 
-module.exports=User
+module.exports = User2;

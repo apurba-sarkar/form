@@ -4,31 +4,46 @@ import Box from "@mui/material/Box";
 import { Button, Container, Typography } from "@mui/material";
 import { Input } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export default function Form() {
   const navigate = useNavigate();
   const initialData = {
     fullname: "",
-    age: "",
-    pin: "",
-    file: null,
+    age: 0,
+    pcds: "",
+    // file: null,
   };
   const [error, setError] = useState("");
   const [data, setData] = useState(initialData);
 
   const handleChange = (e) => {
     let { name, value } = e.target;
-    setData({ ...data, [name]: value });
-    console.log(name, value);
+    setData({ ...data, [name]: value }); 
+    // console.log(name, value);
   };
 
-  const handleSubmit = (e) => {
-    if (data.fullname && data.age && data.pin && data.file) {
-      e.preventDefault();
-      console.log(data);
+  const handleSubmit = async (e) => {
+    console.log(data);
+    try {
+      const res =await axios
+      .post("http://localhost:3000/list", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      console.log(res)
+    } catch (error) {
+      console.log(error)
     }
-    else{
-        setError("please filled all field")
-    }
+    
+    // if (data.fullname && data.age && data.pin) {
+
+    e.preventDefault();
+    console.log(data);
+
+    // } else {
+    //   setError("please filled all field");
+    // }
   };
   return (
     <div
@@ -60,6 +75,7 @@ export default function Form() {
         name="age"
         onChange={handleChange}
         value={data.age}
+        type="number"
       />
       <Typography variant="h6" component="h2">
         Full Name
@@ -68,17 +84,17 @@ export default function Form() {
         id="standard-basic"
         label="Standard"
         variant="standard"
-        name="pin"
+        name="pcds"
         onChange={handleChange}
-        value={data.pin}
+        value={data.pcds}
       />
-      <Input
+      {/* <Input
         type="file"
         name="image"
         onChange={handleChange}
         value={data.file}
 
-      />
+      /> */}
       <Button onClick={handleSubmit}>Submit</Button>
 
       <Button onClick={() => navigate("/list")}>Go</Button>

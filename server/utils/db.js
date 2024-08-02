@@ -2,7 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const URI =
   "mongodb+srv://apurbasarkar453:ricky17sarkar@sam.jzhcpmd.mongodb.net/from?retryWrites=true&w=majority&appName=sam";
-console.log(URI);
+// console.log(URI);
 
 // mongoose.connect
 

@@ -9,10 +9,14 @@ const userSchema = new mongoose.Schema({
   },
   age: {
     type: Number,
-    require: true,
+    // require: true,
   },
   pcds: {
     type: String,
+    // require: true,
+  },
+  photo: {
+    type:String,
     require: true,
   },
 });
@@ -33,10 +37,10 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-userSchema.methods.generateToken = async function (params) {
+userSchema.methods.generateToken = async function () {
   try {
     return jwt.sign(
-      { userId: this._id.toString(), pcds: this.pcds },
+      { userId: this._id.toString(), pcds: this.pcds, fullname: this.fullname },
       "ricky17sarkar",
       {
         expiresIn: "30d",

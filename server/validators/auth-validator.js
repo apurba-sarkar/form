@@ -2,7 +2,7 @@ const { z } = require("zod");
 const authSchema = z.object({
   fullname: z.string({ required_error: "name" }).min(2).max(10),
   age: z.number({ required_error: "number" }),
-  pcds: z.string({ required_error: "name" }),
+  pcds: z.string({ required_error: "name" }).min(3).max(10),
 });
 
 module.exports = authSchema

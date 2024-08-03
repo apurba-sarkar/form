@@ -23,22 +23,29 @@ export default function Form() {
   };
 
   const handleSubmit = async (e) => {
-    console.log(data);
+    // console.log(data);
     try {
       const res = await axios.post("http://localhost:3000/list", data, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-    console.log(res);
+      if(res.statusText=="OK"){
+
+        console.log(res)
+        localStorage.setItem("token",res.data.token);
+        // console.log(res.data.token)
+      }
+
     } catch (error) {
+      // console.log(error.response.data.msg);
       console.log(error);
     }
 
     // if (data.fullname && data.age && data.pin) {
 
     e.preventDefault();
-    console.log(data);
+    // console.log(data);
 
     // } else {
     //   setError("please filled all field");

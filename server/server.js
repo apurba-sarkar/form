@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const router = require("./routers/auth-router");
 const connectdb = require("./utils/db");
-const cors = require("cors")
+const cors = require("cors");
+const errorMiddleware = require("./middlewares/error-middleware");
 app.use(express.json());
 
 const corsOptions = {
@@ -20,3 +21,5 @@ connectdb().then(() => {
     console.log("Server is running on port number ", PORT);
   });
 });
+
+app.use(errorMiddleware);

@@ -37,14 +37,28 @@ const list = async (req, res) => {
   }
 };
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, errors) => {
   try {
     const users = await User2.find(); // Retrieve all users
     res.status(200).json(users); // Send the users as JSON
   } catch (err) {
     console.log(err);
-    res.status(500).send({ msg: "Error fetching users" });
+    // res.status(500).send({ msg: "Error fetching users" });
+    next(errors);
   }
 };
 
-module.exports = { home, list, getAllUsers };
+const user = async (req, res) => {
+  try {
+    const user = req.user;
+    // console.log(user)
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    return res.status(200).json({ msg: user });
+  } catch (error) {
+    return res.status(500).json({ msg: 'Internal server error' });
+  }
+};
+
+module.exports = { home, list, getAllUsers, user };
